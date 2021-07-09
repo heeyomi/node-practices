@@ -35,4 +35,13 @@ Node(JavaScript) project (Application, Package) 생성
 3. npm모듈 : npm을 통해서 node_modules에 설치해서 사용하는 모듈
    패키지 설치 방법 : 1. 로컬 배포
                      2. 원격 배포
-                     
+======================================================================================
+npmjs.com npm registry에 패키지 배포하기.
+1. 사용자 등록
+   $ npm adduser
+     Username : heeyomi
+     Password :
+     Email : yhg9508@gmail.com
+     Logged....
+2. 업로드
+[heeyomi] $ npm publish
