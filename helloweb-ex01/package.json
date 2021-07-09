@@ -1,5 +1,5 @@
 {
-  "name": "project-ex03",
+  "name": "helloweb-ex01",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "heeyomi-math": "^1.0.0"
-  }
+  "dependencies": {}
 }

@@ -45,3 +45,9 @@ npmjs.com npm registry에 패키지 배포하기.
      Logged....
 2. 업로드
 [heeyomi] $ npm publish
+=======================================================================================
+맨바닥에서 웹 애플리케이션 만들어보기
+app01. based on http core module
+app02. based on (http, fs) core module
+app03. based on (connect, server-static, connect-route) npm package(module)
+app04. based on express npm package
