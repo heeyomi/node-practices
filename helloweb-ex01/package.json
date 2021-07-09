@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "connect": "^3.7.0",
+    "connect-route": "^0.1.5",
+    "serve-static": "^1.14.1"
+  }
 }
