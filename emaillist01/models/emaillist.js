@@ -17,6 +17,18 @@ module.exports = {
             conn.end();
         }
     },
-    insert: function() {
+    insert: async function(emaillist) {
+        const conn = dbconn();
+        const query = util.promisify(conn.query).bind(conn);
+    
+        try {
+           return await query("insert into emaillist values (null, ?, ?, ?)",
+           Object.values(emaillist));
+        } catch(e) {
+            console.error(e);
+        } finally {
+            conn.end();
+        }
+        
     }
 }
