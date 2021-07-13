@@ -63,7 +63,6 @@ helloweb-ex02 based on express : npm package(module)<br>
 
 [helloweb-ex02] npm i express<br>
 [helloweb-ex02] npm i ejs<br>
-
 [helloweb-ex02] npm i -D nodemon<br>
 
 package.json 스크립트 수정<br>
@@ -83,3 +82,32 @@ package.json 스크립트 수정<br>
 [helloweb-ex02] mkdir routes <br>
 [helloweb-ex02] mkdir controllers <br>
 [helloweb-ex02] mkdir models <br>
+
+<hr>
+eamillist01 (model based mysql) - 기본 sql 기반<br>
+emaillist02 (model based sequalizer) - ORM<br>
+
+[helloweb-ex02] npm init -y<br>
+
+[helloweb-ex02] npm i express<br>
+[helloweb-ex02] npm i ejs<br>
+[helloweb-ex02] npm i mysql<br>
+[helloweb-ex02] npm i -D nodemon<br>
+
+package.json 스크립트 수정<br>
+
+```javaSctipt
+"scripts": {
+    "start": "node index.js",
+    "debug": "nodemon index.js"
+  },
+```
+
+[emaillist01] npm start (운용시)<br>
+[emaillist01] npm run debug (개발시... Live Update)<br>
+
+[emaillist01] mkdir public <br>
+[emaillist01] mkdir views <br>
+[emaillist01] mkdir routes <br>
+[emaillist01] mkdir controllers <br>
+[emaillist01] mkdir models <br>
