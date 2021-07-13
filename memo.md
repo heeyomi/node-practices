@@ -59,5 +59,27 @@ app03. based on (connect, serve-static) : npm package(module)<br>
 app04. based on (connect, serve-static, connect-route) : npm package(module)<br>
 
 helloweb-ex02 based on express : npm package(module)<br>
-no=10&name=heeyomi<br>
-["no=10", "name=heeyomi"]
+[helloweb-ex02] npm init -y<br>
+
+[helloweb-ex02] npm i express<br>
+[helloweb-ex02] npm i ejs<br>
+
+[helloweb-ex02] npm i -D nodemon<br>
+
+package.json 스크립트 수정<br>
+
+```javaSctipt
+"scripts": {
+    "start": "node index.js",
+    "debug": "nodemon index.js"
+  },
+```
+
+[helloweb-ex02] npm start (운용시)<br>
+[helloweb-ex02] npm run debug (개발시... Live Update)<br>
+
+[helloweb-ex02] mkdir public <br>
+[helloweb-ex02] mkdir views <br>
+[helloweb-ex02] mkdir routes <br>
+[helloweb-ex02] mkdir controllers <br>
+[helloweb-ex02] mkdir models <br>
