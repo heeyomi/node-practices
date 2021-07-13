@@ -111,3 +111,32 @@ package.json 스크립트 수정<br>
 [emaillist01] mkdir routes <br>
 [emaillist01] mkdir controllers <br>
 [emaillist01] mkdir models <br>
+
+<hr>
+guestbook01 (model based mysql) - 기본 sql 기반<br>
+guestbook02 (model based sequalizer) - ORM<br>
+
+[guestbook01] npm init -y<br>
+
+[guestbook01] npm i express<br>
+[guestbook01] npm i ejs<br>
+[guestbook01] npm i mysql<br>
+[guestbook01] npm i -D nodemon<br>
+
+package.json 스크립트 수정<br>
+
+```javaSctipt
+"scripts": {
+    "start": "node index.js",
+    "debug": "nodemon index.js"
+  },
+```
+
+[guestbook01] npm start (운용시)<br>
+[guestbook01] npm run debug (개발시... Live Update)<br>
+
+[guestbook01] mkdir public <br>
+[guestbook01] mkdir views <br>
+[guestbook01] mkdir routes <br>
+[guestbook01] mkdir controllers <br>
+[guestbook01] mkdir models <br>
