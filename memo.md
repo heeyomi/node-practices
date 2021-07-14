@@ -13,24 +13,24 @@
     2\) 전역(project local) 설치 : 특정 프로젝트에만 종속적인 도구나 라이브러리<br>
        $ npm i ...
 
-**패키지 설치** <br>
+## 패키지 설치
 [project-ex01] $ npm i ejs          (local install, general dependency)<br>
 [project-ex01] $ npm i -D nodeamon  (local install, development Dependency)<br>
 [project-ex01] $ npm i -g gulp      (global install)<br>
 
 
-**패키지 삭제** <br>
+## 패키지 삭제
 [project-ex01] $ npm un ejs      (local install 삭제) <br>
 [project-ex01] $ npm un -g gulp  (global install 삭제) <br>
 
-**Node(JavaScript) project (Application, Package) 생성** <br>
+## Node(JavaScript) project (Application, Package) 생성
 1. 프로젝트 디렉토리를 생성          (mkdir) <br>
 2. 프로젝트 디렉토리로 이동          (cd) <br>
 3. [project-ex01] $ npm init -y    (프로젝트 매니페스트 파일(package.js) 생성, 프로젝트 초기화 )
 
 <hr>
 
-**모듈** <br>
+## 모듈
 1. 코어모듈(fs, os, ... node에서 제공해주는 모듈)<br>
 2. 파일모듈 : 파일의 경로로 불러와서 모듈안의 객체, 함수, 클래스를 사용한다.<br>
 3. npm모듈 : npm을 통해서 node_modules에 설치해서 사용하는 모듈<br>
@@ -38,7 +38,7 @@
                          2. 원격 배포
 <hr>
 
-**npmjs.com npm registry에 패키지 배포**<br>
+## npmjs.com npm registry에 패키지 배포
 
   1. 사용자 등록<br>
    $ npm adduser<Br>
