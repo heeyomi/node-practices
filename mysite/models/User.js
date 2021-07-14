@@ -28,7 +28,7 @@ module.exports = function (sequelize) {
             type : DataTypes.ENUM(['female', 'male']),
             allowNull : false
         },
-        roll : {
+        role : {
             field : 'roll',
             type : DataTypes.ENUM(['ADMIN', 'USER']),
             defaultValue: 'USER',
