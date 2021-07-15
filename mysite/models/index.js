@@ -9,10 +9,16 @@ const sequelize = new Sequelize(
 );
 
 const User = require('./User')(sequelize);
+const Guestbook = require('./GuestBook')(sequelize);
 
 User.sync({
     force : process.env.TABLE_CREATE_ALWAYS === 'true',  //force true를 하면 무조건 drop table 하고 새로 table이 만들어짐
     alter : process.env.TABLE_ALTER_SYNC === 'true'    // const User가 변경이 되면 alter가 테이블에 적용 됨
 });
 
-module.exports = { User}
+Guestbook.sync({
+    force : process.env.TABLE_CREATE_ALWAYS === 'true',  //force true를 하면 무조건 drop table 하고 새로 table이 만들어짐
+    alter : process.env.TABLE_ALTER_SYNC === 'true'    // const User가 변경이 되면 alter가 테이블에 적용 됨
+})
+
+module.exports = { User, Guestbook}
