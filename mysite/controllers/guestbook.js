@@ -2,44 +2,58 @@ const models = require('../models');
 const Sequelize = require('sequelize');
 
 module.exports = {
-    list : async function (req, res) {
-        const results = await models.Guestbook.findAll({
-            attributes: ['name', 'no', [
-                Sequelize.fn(
-                  "date_format",
-                  Sequelize.col("reg_date"),
-                  "%Y/%m/%d %H:%i:%s"
-                ),
-                "regDate",
-              ], 'content'],
-              order: [
-                ['no', 'DESC']
-            ]
-        });
-        res.render('guestbook/list', {
-            results
-        });
+    list : async function (req, res, next) {
+        try {
+            const results = await models.Guestbook.findAll({
+                attributes: ['name', 'no', [
+                    Sequelize.fn(
+                        "date_format",
+                        Sequelize.col("reg_date"),
+                        "%Y/%m/%d %H:%i:%s"
+                        ),
+                        "regDate",
+                    ], 'content'],
+                    order: [
+                        ['no', 'DESC']
+                    ]
+                });
+                res.render('guestbook/list', {
+                    results
+                });
+            } catch (err) {
+                next(err);
+            }
     },
-    add: async function (req, res) {
-        console.log(req.body);
-        const result = await models.Guestbook.create({
-            name : req.body.name,
-            password : req.body.password,
-            content : req.body.content,
-        })
-        console.log(result);
-        res.redirect('/guestbook');
+    add: async function (req, res, next) {
+        try {
+            
+            const result = await models.Guestbook.create({
+                name : req.body.name,
+                password : req.body.password,
+                content : req.body.content,
+            })
+            console.log(result);
+            res.redirect('/guestbook');
+        } catch (error) {
+            next(error);
+        }
     },
     delete : function (req, res) {
-        console.log("delete");
         res.render('guestbook/delete');
     },
     _delete : async function (req, res, next) {
         try {
-            await models.Guestbook.destroy({
+            const result = await models.Guestbook.destroy({
                 where : req.body
             });
-            res.redirect('/guestbook');
+            if (result !== 1) {
+                res.render('guestbook/delete', {
+                    no : req.body.no,
+                    result : result
+                });
+            } else{
+                res.redirect('/guestbook');
+            }
         } catch (error) {
             next(error);
         }

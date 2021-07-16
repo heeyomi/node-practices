@@ -38,7 +38,8 @@
 								</tr>
 								<tr>
 									<td colspan=4>
-										<%= results[i].content %></td>
+										<%- results[i].content.replace(/\n/g, '<br/>') %>
+									</td>
 									</td>
 								</tr>
 							</table>

@@ -13,7 +13,11 @@
 				<form method="post" action="/guestbook/delete">
 					<input type='hidden' name="no" value="<%= req.params.no %>">
 					<label>비밀번호</label>
+					<% if (locals.result === 0) { %>
+					<input type="password" name="password" placeholder="비밀번호가 일치하지 않습니다.">
+					<% } else { %>
 					<input type="password" name="password">
+					<% } %>
 					<input type="submit" value="확인">
 				</form>
 				<a href="/guestbook">방명록 리스트</a>
