@@ -59,8 +59,6 @@ module.exports = {
         }
     },
     update : function (req, res) {
-        console.log(req.session.authUser.name);
-
         res.render('user/update',{
             name : req.session.authUser.name,
             email : req.session.authUser.email,

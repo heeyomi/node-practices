@@ -2,7 +2,7 @@ const models = require('../models');
 const Sequelize = require('sequelize');
 
 module.exports = {
-    list : async function (req, res, next) {
+    index : async function (req, res, next) {
         try {
             const results = await models.Guestbook.findAll({
                 attributes: ['name', 'no', [
@@ -12,12 +12,12 @@ module.exports = {
                         "%Y/%m/%d %H:%i:%s"
                         ),
                         "regDate",
-                    ], 'content'],
+                    ], 'message'],
                     order: [
                         ['no', 'DESC']
                     ]
                 });
-                res.render('guestbook/list', {
+                res.render('guestbook/index', {
                     results
                 });
             } catch (err) {
@@ -30,7 +30,7 @@ module.exports = {
             const result = await models.Guestbook.create({
                 name : req.body.name,
                 password : req.body.password,
-                content : req.body.content,
+                message : req.body.message,
             })
             console.log(result);
             res.redirect('/guestbook');
@@ -57,5 +57,8 @@ module.exports = {
         } catch (error) {
             next(error);
         }
+    },
+    spa : function (req, res) {
+        res.render('guestbook/spa-landing');
     }
 }

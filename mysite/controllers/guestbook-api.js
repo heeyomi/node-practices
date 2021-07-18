@@ -1,21 +1,33 @@
+const models = require("../models");
+const Sequelize = require("sequelize");
+const moment = require("moment");
+const { Op } = require("sequelize");
+
 module.exports = {
-    create: async function(req, res, next) {
-        console.log(req.body);
-        // sql insert
-        res.status(200).send({
-            result: 'success',
-            data: Object.assign(req.body, {
-                no: 10,
-                password: '',
-                regDate: new Date()
-            }),
-            message: null
-        });
-    },
-    read: async function(req, res, next) {
-        const startNo = req.query.sno || 0;
-        console.log(startNo);
-        // sql: select.... limit
+    read : async function (req, res, next) {
+        try {
+            const startNo = req.query.no || 0;
+            console.log("시작번호 " + startNo);
+            const result = await models.Guestbook.findAll({
+                attributes: [
+                    'no', 'name', 'message',
+                ],
+                where: [startNo > 0 ? {no : { [Op.lt] : startNo }} : {}],
+                order : [
+                    ['no', 'DESC']
+                ],
+                offset :0,
+                limit :6
+            })
+            res.status(200).send({
+                result: 'success',
+                data : result,
+                message : null
+            });
+        } catch (error) {
+            next(error);
+        }
+
         res.status(200).send({
             result: 'success',
             data:[{
@@ -37,13 +49,44 @@ module.exports = {
             message: null
         });
     },
-    delete: function(req, res, next) {
-        console.log(req.params.no + ":" + req.body.password);
-        // sql delete
-        res.status(200).send({
-            result: 'success',
-            data: req.params.no,
-            message: null
-        });
+    create: async function (req, res, next) {
+        try {
+            console.log(req.body);
+            const result = await models.Guestbook.create(
+                req.body
+            );
+            console.log(result);
+    
+            res.status(200).send({
+                result : "success",
+                data : Object.assign(req.body, {
+                    no : result.no,
+                    password : "",
+                    regDate : new Date()
+                })
+            })
+            
+        } catch (error) {
+            next(error);
+        }
+    },
+    delete : async function (req, res, next) {
+        try {
+            const result = await models.Guestbook.destroy({
+                where : {
+                    no : req.params.no,
+                    password : req.body.password
+                }
+            });
+
+            res.status(200).send({
+                result : "success",
+                data : result == 1 ? req.params.no : 0,
+                message : null
+            });
+        } catch (error) {
+            next(error);
+        }
+        console.log(req.body.no);
     }
 }

@@ -18,7 +18,7 @@ module.exports = function (sequelize) {
             type : DataTypes.STRING(45),
             allowNull : false
         },
-        content : {
+        message : {
             field : 'message',
             type : DataTypes.TEXT,
             allowNull : false

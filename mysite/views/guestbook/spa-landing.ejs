@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mysite</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/assets/css/guestbook-spa.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript" src="/assets/js/jquery/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="/assets/js/ejs/ejs.js"></script>
+
+<script> 
+var flag = false;
+ 
+var listItemTemplate = new EJS({
+	url: "/assets/js/ejs/list-item-template.ejs"
+});
+
+var listTemplate = new EJS({
+	url: "/assets/js/ejs/list-template.ejs"
+});
+ 
+var fetch = function() {
+	var no = $("#list-guestbook li").last().data("no");
+	if (no == null) {
+		no = -1;
+	}
+
+	
+	$.ajax({
+		url: "/api/guestbook",
+		dataType:"json",
+		data: "no=" + no,
+		type:"get",
+		success: function(response) {
+			if (response.data.length == 0) {
+				flag = true;
+				html =
+					"<li><strong>더 이상 글이 없습니다.</strong></li>";
+					$("#list-guestbook").append(html);
+			} else{
+				//rendering
+				var html = listTemplate.render(response);
+				$("#list-guestbook").append(html);
+			}
+			
+		}
+	 });
+}
+ 
+$(function(){
+
+	$(window).scroll(function() {
+		var $window = $(this);
+		
+		var windowHeight = $window.height();
+		var scrollTop = $window.scrollTop();
+		var documentHeight = $(document).height();
+		
+		if (scrollTop + windowHeight + 10 > documentHeight) {
+			if (!flag) {
+				fetch();
+			}
+		}
+	});
+	
+	// live event: 존재하지 않는 element의 이벤트 핸들러를 미리 등록
+	// delegation(위임) -> document
+	$(document).on("click", "#list-guestbook li a", function(event){
+		event.preventDefault();
+		
+		let no = $(this).data("no");
+		$("#hidden-no").val(no);
+		
+		deleteDialog.dialog("open");
+	});
+	
+	// 삭제 다이알로그 만들기
+	const deleteDialog = $("#dialog-delete-form").dialog({
+		autoOpen: false,
+		width: 300,
+		height: 220,
+		modal: true,
+		buttons:{
+			"삭제" : function() {
+				const no = $("#hidden-no").val();
+				const password = $("#password-delete").val();
+				
+				$.ajax({
+					url: "/api/guestbook/" + no,
+					dataType: "json",
+					type: "delete",
+					data: "password=" + password,
+					success: function(response){
+						if (response.data == -1) {
+							$(".validateTips.error").show();
+							return;
+						}
+						$("#list-guestbook li[data-no=" + response.data + "]").remove();
+						deleteDialog.dialog("close");
+					}
+				});
+			},
+			"취소" : function() {
+				$(this).dialog("close");
+			}
+		},
+		close: function() {
+			// 1. password 비우기
+			$("#password-delete").val("");
+
+			// 2. hidden no 비우기
+			$("#hidden-no").val("");
+			
+			// 3. error message 숨기기
+			$(".validateTips.error").hide();
+			console.log("dialog form data 정리 작업")
+		}
+	});
+	
+	var validate = function (title, message) {
+		$("#dialog-message p").text(message);
+		$("#dialog-message").dialog({
+			modal: true,
+			title: title,
+			buttons: {
+				"확인" : function() {
+					$(this).dialog("close");
+				}
+			}
+		})
+	}
+	
+	$("#add-form").submit(function(event){
+		event.preventDefault();
+		vo = {}
+		vo.name = $("#input-name").val();
+
+		// validation name
+		if(vo.name == "") {
+			validate("이름", "이름이 비어있습니다.");
+			$("#input-name").focus();
+			return;
+		}
+		vo.password = $("#input-password").val();
+		// validation password
+		if(vo.password == "") {
+			validate("패스워드", "패스워드가 비어있습니다.");
+			$("#input-password").focus();
+			return;
+		}
+		
+		vo.message = $("#tx-content").val();
+		// validation message
+		if(vo.message == "") {
+			validate("내용", "내용이 비어있습니다.");
+			$("#tx-content").focus();
+			return;
+		}
+		
+		// 데이터 등록
+		$.ajax({
+			url: "/api/guestbook",
+			dataType: "json",
+			type: "post",
+			contentType: "application/json",
+			data: JSON.stringify(vo),
+			success: function(response){
+				var html = listItemTemplate.render(response.data);
+					
+				$("#list-guestbook").prepend(html);	
+				$("#add-form")[0].reset();
+			}
+		});		
+		
+	})
+	
+	// 최초 데이터 가져오기
+	fetch();
+});
+</script>
+
+</head>
+<body>
+	<div id="container">
+		<%- include('../includes/header')%>
+		<div id="content">
+			<div id="guestbook">
+				<h1>방명록</h1>
+				<form id="add-form" action="" method="post">
+					<input type="text" id="input-name" placeholder="이름">
+					<input type="password" id="input-password" placeholder="비밀번호">
+					<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
+					<input type="submit" value="보내기" />
+				</form>
+				<ul id="list-guestbook">
+				</ul>
+			</div>
+			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
+  				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
+  				<p class="validateTips error" style="display:none">비밀번호가 틀립니다.</p>
+  				<form>
+ 					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all">
+					<input type="hidden" id="hidden-no" value="">
+					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+  				</form>
+			</div>
+			<div id="dialog-message" title="" style="display:none">
+  				<p></p>
+			</div>						
+		</div>
+		<%- include('../includes/navigation')%>
+		<%- include('../includes/footer') %>
+	</div>
+</body>
+</html>
