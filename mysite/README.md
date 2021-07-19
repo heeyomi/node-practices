@@ -17,6 +17,9 @@ $ npm i multer
 $ npm i moment
 $ npm i winston
 $ npm i winston-daily-rotate-file
+
+$ npm i -D mocha
+$ npm i -D chai
 $ npm i -D nodemon
 ```
 
@@ -24,6 +27,7 @@ $ npm i -D nodemon
 ```JSON
 "scripts" : {
     "start" :"node index.js",
+    "teset" : "npx mocha",
     "debug" : "nodemon index.js"
 },
 ```
@@ -34,22 +38,27 @@ $ npm i -D nodemon
     |--- index.js
     |--- package.json
     |--- package-lock.json
-    |--- /node-modules
-    |--- /config
-    |--- /logging
-    |--- /logs
-    |--- /multer-temporary-store
-    |--- /public
-           |--- /assets
-                    |--- /gallery
-    |--- /routes
-    |--- /controllers
-    |--- /models
-    |--- /views
-           |--- /main
-           |--- /user
-           |--- /guestbook
-           |--- /board
-           |--- /gallery
-           |--- /admin
+    |--- [node_modules]
+    |--- test
+    |--- logging
+    |--- [logs]
+           |--- [error]
+    |--- [multer-temporary-store]
+    |--- config
+    |--- public
+           |--- assets
+                    |--- js
+                    |--- css
+                    |--- images
+                    |--- [upload-images]
+    |--- routes
+    |--- controllers
+    |--- models
+    |--- views
+           |--- main
+           |--- user
+           |--- guestbook
+           |--- board
+           |--- gallery
+           |--- admin
 </pre>
